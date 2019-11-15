@@ -2,7 +2,9 @@ import Foundation
 
 class HttpRequest {
     
-    public static func get <T: Decodable> (url: String, completion: @escaping(T?, Error?) -> ()) {
+    //MARK: get data from a url
+    
+    public static func get <T: Decodable> (from url: String, completion: @escaping(T?, Error?) -> ()) {
         
         guard let url = URL(string: url) else { return }
         
@@ -10,16 +12,17 @@ class HttpRequest {
             
             if let error = error {
                 completion(nil,error)
+                return
             }
             
             guard let jsonData = data else { return }
             
             do {
-                let serverResponse = try JSONDecoder().decode(T.self, from: jsonData)
-                completion(serverResponse, nil)
+                let responseObject = try JSONDecoder().decode(T.self, from: jsonData)
+                completion(responseObject, nil)
                 return
-            } catch let jsonError  {
-                completion(nil, jsonError)
+            } catch let error  {
+                completion(nil, error)
                 return
             }
             

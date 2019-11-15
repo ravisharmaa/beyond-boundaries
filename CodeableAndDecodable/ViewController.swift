@@ -6,9 +6,10 @@ class ViewController: UIViewController {
 
 
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         
-        HttpRequest.get(url: Constants.apiUrl) { (movie: Movie?, error) in
+        HttpRequest.get(from: Constants.apiUrl) { (movie: Movie?, error) in
             if let movie = movie {
                 self.results = movie.results
                 print(self.results)
